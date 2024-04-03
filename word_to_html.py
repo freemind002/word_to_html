@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path, WindowsPath
 from random import shuffle, uniform
 from time import sleep
-from typing import Any, Dict, List, Text
+from typing import List, Text
 
 from bs4 import BeautifulSoup
 from win32com import client
