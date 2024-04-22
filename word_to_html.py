@@ -14,26 +14,17 @@ class WordToHtml(object):
         self.word = client.Dispatch("Word.Application")
         self.old_doc = None
 
-    def get_file_list(self, file_type: Text) -> List[WindowsPath]:
+    def get_file_list(self, file_type: Text, *args) -> List[WindowsPath]:
         """在指定的目錄下，取得所需類型的檔案資訊(檔名、路徑....)
 
         Args:
-            file_type (Text): 使用此參數，決定路徑
+            file_type (Text): 使用此參數，決定檔案的類型
 
         Returns:
             List[WindowsPath]: 返回包含所需類型檔案資訊的列表，每個檔案資訊包括檔名和路徑等相關資訊。
         """
+        directory = Path(__file__).parent.joinpath(*args)
         file_list = []
-        if file_type == "doc":
-            directory = Path(__file__).parent.joinpath("src", "word_data")
-        elif file_type == "docx":
-            directory = Path(__file__).parent.joinpath("src", "word_data")
-        elif file_type == "docx_copy":
-            directory = Path(__file__).parent.joinpath("src", "copy_file", "docx")
-            file_type = "docx"
-        elif file_type == "html_copy":
-            directory = Path(__file__).parent.joinpath("src", "copy_file", "html")
-            file_type = "html"
 
         for root, dirs, files in os.walk(directory):
             for file in files:
@@ -122,23 +113,23 @@ class WordToHtml(object):
 
     def run_all(self):
         # 將doc轉成docx
-        doc_list = self.get_file_list("doc")
+        doc_list = self.get_file_list("doc", "src", "word_data")
         if doc_list:
             self.doc_to_docx(doc_list)
         # 複製docx
-        docx_list = self.get_file_list("docx")
+        docx_list = self.get_file_list("docx", "src", "word_data")
         if docx_list:
             self.copy_file(docx_list, "docx")
         # 去除docx的空格
-        docx_list = self.get_file_list("docx_copy")
+        docx_list = self.get_file_list("docx", "src", "copy_file", "docx")
         if docx_list:
             self.rename_docx(docx_list)
         # 將docx轉成html
-        docx_list = self.get_file_list("docx_copy")
+        docx_list = self.get_file_list("docx", "src", "copy_file", "docx")
         if docx_list:
             self.docx_to_html(docx_list)
         # 對html進行解析
-        html_list = self.get_file_list("html_copy")
+        html_list = self.get_file_list("html", "src", "copy_file", "html")
         if html_list:
             self.html_to_sql(html_list)
 
