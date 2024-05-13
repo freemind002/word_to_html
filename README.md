@@ -9,5 +9,5 @@
 ## 參.參考資料
 | 參考資料 |
 | ---- |
-| [pywin32 306 ](https://pypi.org/project/pywin32/) |
+| [pywin32](https://pypi.org/project/pywin32/) |
 | [pandoc-index](https://pandoc.org/) |
